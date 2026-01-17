@@ -4,7 +4,7 @@ version: 0.1.0
 repository: https://github.com/rummel-tech/investment-manager
 
 environment:
-  sdk: '>=2.17.0 <4.0.0'
+  sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
 

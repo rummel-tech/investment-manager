@@ -4,14 +4,6 @@ library analyzer;
 import 'portfolio.dart';
 import 'stock.dart';
 
-/// Performance analysis result for a single stock
-class StockPerformance {
-  final String symbol;
-  final double gainLossPercent;
-
-  StockPerformance(this.symbol, this.gainLossPercent);
-}
-
 /// Provides analysis and guidance for investment portfolios.
 class InvestmentAnalyzer {
   /// Analyze a portfolio and provide insights.
