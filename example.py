@@ -116,6 +116,7 @@ def main():
     print("-" * 60)
     print("Rebalancing Suggestions")
     print("-" * 60)
+    # Target allocation percentages should sum to 100%
     target_allocation = {
         "AAPL": 25.0,
         "GOOGL": 25.0,
@@ -123,6 +124,8 @@ def main():
         "TSLA": 15.0,
         "AMZN": 10.0
     }
+    # Verify allocation sums to 100%
+    assert sum(target_allocation.values()) == 100.0, "Target allocation must sum to 100%"
     
     suggestions = InvestmentAnalyzer.get_rebalancing_suggestions(portfolio, target_allocation)
     for suggestion in suggestions:

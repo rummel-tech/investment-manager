@@ -34,7 +34,7 @@ class TestInvestmentAnalyzer(unittest.TestCase):
         """Test identifying high-performing stocks."""
         portfolio = Portfolio()
         portfolio.add_stock(Stock("AAPL", 10, 100.0, current_price=130.0))  # 30% gain
-        portfolio.add_stock(Stock("GOOGL", 5, 2800.0, current_price=2900.0))  # ~3.6% gain
+        portfolio.add_stock(Stock("GOOGL", 5, 2800.0, current_price=2900.0))  # 3.57% gain
         
         high_performers = InvestmentAnalyzer.identify_high_performers(portfolio, 20.0)
         
