@@ -1,6 +1,6 @@
 # Artemis Investment Manager
 
-A Python module for managing investments, tracking stock holdings, and providing guidance to maximize returns.
+A Dart library for managing investments, tracking stock holdings, and providing guidance to maximize returns.
 
 ## Features
 
@@ -11,128 +11,177 @@ A Python module for managing investments, tracking stock holdings, and providing
 
 ## Installation
 
+Add this to your package's `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  investment_manager:
+    path: .
+```
+
+Then run:
+
 ```bash
-pip install -e .
+dart pub get
 ```
 
 ## Usage
 
 ### Basic Stock Management
 
-```python
-from artemis import Stock
+```dart
+import 'package:investment_manager/investment_manager.dart';
 
-# Create a stock holding
-stock = Stock("AAPL", shares=10, purchase_price=150.0, current_price=160.0)
+// Create a stock holding
+final stock = Stock(
+  symbol: 'AAPL',
+  shares: 10,
+  purchasePrice: 150.0,
+  currentPrice: 160.0,
+);
 
-# Access stock information
-print(f"Total cost: ${stock.total_cost}")
-print(f"Current value: ${stock.current_value}")
-print(f"Gain/Loss: ${stock.gain_loss} ({stock.gain_loss_percent:.2f}%)")
+// Access stock information
+print('Total cost: \$${stock.totalCost}');
+print('Current value: \$${stock.currentValue}');
+print('Gain/Loss: \$${stock.gainLoss} (${stock.gainLossPercent.toStringAsFixed(2)}%)');
 
-# Update price
-stock.update_price(165.0)
+// Update price
+stock.updatePrice(165.0);
 ```
 
 ### Portfolio Management
 
-```python
-from artemis import Portfolio, Stock
+```dart
+import 'package:investment_manager/investment_manager.dart';
 
-# Create a portfolio
-portfolio = Portfolio("My Investment Portfolio")
+// Create a portfolio
+final portfolio = Portfolio(name: 'My Investment Portfolio');
 
-# Add stocks
-portfolio.add_stock(Stock("AAPL", 10, 150.0, current_price=160.0))
-portfolio.add_stock(Stock("GOOGL", 5, 2800.0, current_price=2900.0))
+// Add stocks
+portfolio.addStock(Stock(
+  symbol: 'AAPL',
+  shares: 10,
+  purchasePrice: 150.0,
+  currentPrice: 160.0,
+));
+portfolio.addStock(Stock(
+  symbol: 'GOOGL',
+  shares: 5,
+  purchasePrice: 2800.0,
+  currentPrice: 2900.0,
+));
 
-# Get portfolio summary
-summary = portfolio.get_summary()
-print(f"Total Value: ${summary['total_value']:.2f}")
-print(f"Total Gain/Loss: ${summary['total_gain_loss']:.2f}")
+// Get portfolio summary
+final summary = portfolio.getSummary();
+print('Total Value: \$${summary['total_value'].toStringAsFixed(2)}');
+print('Total Gain/Loss: \$${summary['total_gain_loss'].toStringAsFixed(2)}');
 
-# Update stock prices
-portfolio.update_stock_price("AAPL", 165.0)
+// Update stock prices
+portfolio.updateStockPrice('AAPL', 165.0);
 ```
 
 ### Investment Analysis
 
-```python
-from artemis import Portfolio, Stock, InvestmentAnalyzer
+```dart
+import 'package:investment_manager/investment_manager.dart';
 
-# Create and populate portfolio
-portfolio = Portfolio("My Portfolio")
-portfolio.add_stock(Stock("AAPL", 10, 150.0, current_price=160.0))
-portfolio.add_stock(Stock("GOOGL", 5, 2800.0, current_price=2700.0))
+// Create and populate portfolio
+final portfolio = Portfolio(name: 'My Portfolio');
+portfolio.addStock(Stock(
+  symbol: 'AAPL',
+  shares: 10,
+  purchasePrice: 150.0,
+  currentPrice: 160.0,
+));
+portfolio.addStock(Stock(
+  symbol: 'GOOGL',
+  shares: 5,
+  purchasePrice: 2800.0,
+  currentPrice: 2700.0,
+));
 
-# Analyze portfolio
-analysis = InvestmentAnalyzer.analyze_portfolio(portfolio)
-print(f"Winners: {analysis['winners']}")
-print(f"Losers: {analysis['losers']}")
-print(f"Best performer: {analysis['best_performer']['symbol']}")
+// Analyze portfolio
+final analysis = InvestmentAnalyzer.analyzePortfolio(portfolio);
+print('Winners: ${analysis['winners']}');
+print('Losers: ${analysis['losers']}');
+print('Best performer: ${analysis['best_performer']['symbol']}');
 
-# Get recommendations
-recommendations = InvestmentAnalyzer.generate_recommendations(portfolio)
-for rec in recommendations:
-    print(f"- {rec}")
+// Get recommendations
+final recommendations = InvestmentAnalyzer.generateRecommendations(portfolio);
+for (final rec in recommendations) {
+  print('- $rec');
+}
 
-# Check diversification
-score, recommendation = InvestmentAnalyzer.get_diversification_score(portfolio)
-print(f"Diversification Score: {score}/100")
-print(f"Recommendation: {recommendation}")
+// Check diversification
+final divResult = InvestmentAnalyzer.getDiversificationScore(portfolio);
+print('Diversification Score: ${divResult.score.toStringAsFixed(0)}/100');
+print('Recommendation: ${divResult.recommendation}');
 
-# Identify high performers
-high_performers = InvestmentAnalyzer.identify_high_performers(portfolio, threshold=20.0)
-for stock in high_performers:
-    print(f"{stock.symbol}: {stock.gain_loss_percent:.2f}%")
+// Identify high performers
+final highPerformers = InvestmentAnalyzer.identifyHighPerformers(
+  portfolio,
+  threshold: 20.0,
+);
+for (final stock in highPerformers) {
+  print('${stock.symbol}: ${stock.gainLossPercent.toStringAsFixed(2)}%');
+}
 ```
 
 ### Rebalancing Suggestions
 
-```python
-from artemis import InvestmentAnalyzer
+```dart
+import 'package:investment_manager/investment_manager.dart';
 
-# Get rebalancing suggestions with target allocation
-target_allocation = {
-    "AAPL": 50.0,   # 50% of portfolio
-    "GOOGL": 30.0,  # 30% of portfolio
-    "MSFT": 20.0    # 20% of portfolio
+// Get rebalancing suggestions with target allocation
+final targetAllocation = {
+  'AAPL': 50.0,   // 50% of portfolio
+  'GOOGL': 30.0,  // 30% of portfolio
+  'MSFT': 20.0,   // 20% of portfolio
+};
+
+final suggestions = InvestmentAnalyzer.getRebalancingSuggestions(
+  portfolio,
+  targetAllocation,
+);
+
+for (final suggestion in suggestions) {
+  if (suggestion.containsKey('action')) {
+    print('${suggestion['symbol']}: ${suggestion['action']} '
+          '(current: ${suggestion['current_allocation'].toStringAsFixed(1)}%, '
+          'target: ${suggestion['target_allocation'].toStringAsFixed(1)}%)');
+  }
 }
+```
 
-suggestions = InvestmentAnalyzer.get_rebalancing_suggestions(
-    portfolio, 
-    target_allocation
-)
+## Running the Example
 
-for suggestion in suggestions:
-    if "action" in suggestion:
-        print(f"{suggestion['symbol']}: {suggestion['action']} "
-              f"(current: {suggestion['current_allocation']:.1f}%, "
-              f"target: {suggestion['target_allocation']:.1f}%)")
+```bash
+dart run bin/example.dart
 ```
 
 ## Running Tests
 
 ```bash
-python -m pytest tests/
-# or
-python tests/__init__.py
+dart test
 ```
 
-## Module Structure
+## Library Structure
 
 ```
-artemis/
-├── __init__.py          # Module initialization
-├── stock.py             # Stock class for individual holdings
-├── portfolio.py         # Portfolio class for managing multiple stocks
-└── analyzer.py          # InvestmentAnalyzer for analysis and recommendations
+lib/
+├── investment_manager.dart  # Library exports
+└── src/
+    ├── stock.dart           # Stock class for individual holdings
+    ├── portfolio.dart       # Portfolio class for managing multiple stocks
+    └── analyzer.dart        # InvestmentAnalyzer for analysis and recommendations
 
-tests/
-├── __init__.py          # Test runner
-├── test_stock.py        # Tests for Stock class
-├── test_portfolio.py    # Tests for Portfolio class
-└── test_analyzer.py     # Tests for InvestmentAnalyzer class
+bin/
+└── example.dart             # Example application
+
+test/
+├── stock_test.dart          # Tests for Stock class
+├── portfolio_test.dart      # Tests for Portfolio class
+└── analyzer_test.dart       # Tests for InvestmentAnalyzer class
 ```
 
 ## License
