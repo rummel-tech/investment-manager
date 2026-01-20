@@ -184,6 +184,16 @@ test/
 └── analyzer_test.dart       # Tests for InvestmentAnalyzer class
 ```
 
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md) - System design
+- [Deployment](docs/DEPLOYMENT.md) - Deployment guide
+- [Changelog](./CHANGELOG.md) - Version history
+
 ## License
 
 MIT License - see LICENSE file for details.
+
+---
+
+[Platform Documentation](../../../docs/) | [Product Overview](../../../docs/products/investment-manager.md)
