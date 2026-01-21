@@ -44,6 +44,65 @@ All API endpoints require JWT Bearer token from AWS Cognito:
 Authorization: Bearer <access_token>
 ```
 
+## Design System
+
+This module uses the shared Artemis Design System. See [Design System](../../../../docs/architecture/DESIGN_SYSTEM.md) for complete specifications.
+
+### Design Principles
+
+All UI components follow the shared design system to ensure visual consistency across the Artemis ecosystem:
+
+- **Colors**: Rummel Blue primary (`#1E88E5`), Teal secondary (`#26A69A`)
+- **Typography**: Material 3 type scale with system fonts
+- **Spacing**: Consistent 4dp base unit scale (xs: 4dp, sm: 8dp, md: 16dp, lg: 24dp)
+- **Components**: Shared button, card, input, and navigation styles
+
+### Module-Specific Colors
+
+| Element | Color | Token | Usage |
+|---------|-------|-------|-------|
+| Gains | `#388E3C` | `success` | Positive returns, profit indicators |
+| Losses | `#D32F2F` | `error` | Negative returns, loss indicators |
+| Neutral | `#26A69A` | `secondary500` | Break-even, no change |
+| Allocation | `#1E88E5` | `primary500` | Portfolio allocation charts |
+
+### Performance Display Colors
+
+| Performance | Color | Condition |
+|-------------|-------|-----------|
+| Strong Gain | `#2E7D32` | > +10% |
+| Gain | `#388E3C` | +0.01% to +10% |
+| Neutral | `#757575` | 0% |
+| Loss | `#D32F2F` | -0.01% to -10% |
+| Strong Loss | `#B71C1C` | < -10% |
+
+### Key Components
+
+| Component | Specification |
+|-----------|---------------|
+| PortfolioSummary | Card with total value, gain/loss with semantic color |
+| StockCard | Card with symbol, shares, price, gain/loss percentage |
+| AllocationChart | Pie chart using primary color scale |
+| PerformanceBar | Horizontal bar with gain (green) / loss (red) fill |
+| DiversificationGauge | Semi-circular gauge with score and recommendation |
+| RecommendationCard | Card with icon, action text, reasoning |
+
+### Diversification Score Colors
+
+| Score Range | Color | Meaning |
+|-------------|-------|---------|
+| 0-30 | `#D32F2F` | Poor diversification |
+| 31-60 | `#F57C00` | Low diversification |
+| 61-80 | `#1E88E5` | Moderate diversification |
+| 81-100 | `#388E3C` | Good diversification |
+
+### Screen Layouts
+
+All screens follow responsive breakpoints from the shared design system:
+- Mobile (< 600dp): Single column with portfolio at top, holdings list
+- Tablet (600-839dp): Two-column with portfolio summary and holdings
+- Desktop (>= 840dp): Dashboard with charts, holdings table, and analysis panel
+
 ## Data Models
 
 ### Stock
