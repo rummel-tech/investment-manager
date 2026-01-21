@@ -120,4 +120,30 @@ class Portfolio {
   String toString() {
     return '$name: ${_holdings.length} stocks, \$${totalValue.toStringAsFixed(2)} value';
   }
+
+  /// Convert to JSON map for serialization.
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'holdings': _holdings.values.map((stock) => stock.toJson()).toList(),
+    };
+  }
+
+  /// Create a Portfolio from JSON map.
+  ///
+  /// Args:
+  ///   json: Map containing portfolio data
+  ///
+  /// Returns:
+  ///   Portfolio instance
+  static Portfolio fromJson(Map<String, dynamic> json) {
+    final portfolio = Portfolio(name: json['name'] as String? ?? 'My Portfolio');
+    final holdingsList = json['holdings'] as List<dynamic>?;
+    if (holdingsList != null) {
+      for (final holdingJson in holdingsList) {
+        portfolio.addStock(Stock.fromJson(holdingJson as Map<String, dynamic>));
+      }
+    }
+    return portfolio;
+  }
 }

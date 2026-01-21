@@ -62,4 +62,36 @@ class Stock {
   String toString() {
     return '$symbol: $shares shares @ \$${currentPrice.toStringAsFixed(2)}';
   }
+
+  /// Convert to JSON map for serialization.
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'shares': shares,
+      'purchasePrice': purchasePrice,
+      'currentPrice': currentPrice,
+      'purchaseDate': purchaseDate.toIso8601String(),
+    };
+  }
+
+  /// Create a Stock from JSON map.
+  ///
+  /// Args:
+  ///   json: Map containing stock data
+  ///
+  /// Returns:
+  ///   Stock instance
+  static Stock fromJson(Map<String, dynamic> json) {
+    return Stock(
+      symbol: json['symbol'] as String,
+      shares: (json['shares'] as num).toDouble(),
+      purchasePrice: (json['purchasePrice'] as num).toDouble(),
+      currentPrice: json['currentPrice'] != null
+          ? (json['currentPrice'] as num).toDouble()
+          : null,
+      purchaseDate: json['purchaseDate'] != null
+          ? DateTime.parse(json['purchaseDate'] as String)
+          : null,
+    );
+  }
 }
