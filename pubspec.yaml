@@ -1,14 +1,22 @@
 name: investment_manager
-description: A Dart module for managing investments, tracking stock holdings, and providing guidance to maximize returns.
+description: An investment management module for Artemis with portfolio tracking, analysis, and tax insights.
 version: 0.1.0
 repository: https://github.com/rummel-tech/investment-manager
-
 environment:
-  sdk: '>=2.17.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  flutter:
+    sdk: flutter
   http: ^1.2.0
+  rummel_blue_theme:
+    path: ../../../resources/rummel_blue_theme
 
 dev_dependencies:
+  flutter_test:
+    sdk: flutter
   test: ^1.24.0
   lints: ^2.1.0
+
+flutter:
+  uses-material-design: true
