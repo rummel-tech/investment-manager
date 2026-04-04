@@ -1,42 +1,21 @@
-# Investment Manager Deployment
+# Investment Manager deployment
 
 ## Overview
 
-The Investment Manager is currently a Python CLI application. This guide covers local installation and usage.
+Investment Manager is a **Flutter** application. There is no matching service under `services/` yet.
 
-## Installation
-
-```bash
-cd modules/asset-managers/investment-manager
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-## Usage
+## Local build
 
 ```bash
-# Run the application
-python -m investment_manager
-
-# Run tests
-pytest
+cd investment-manager
+flutter pub get
+flutter run -d chrome
 ```
 
-## Configuration
+## Production
 
-Configuration is managed via environment variables or a `.env` file:
-
-```bash
-DATABASE_URL=sqlite:///./investment_manager.db
-```
-
-## Future Deployment
-
-When Flutter frontend and FastAPI backend are added:
-- Frontend: GitHub Pages via infrastructure workflows
-- Backend: AWS ECS via infrastructure workflows
+Use your standard Flutter release process (`flutter build web`, iOS/Android store builds). Add backend and IaC when a dedicated API is introduced.
 
 ---
 
-[Back to Module](../) | [Platform Documentation](../../../../docs/)
+**Last updated**: April 2026
