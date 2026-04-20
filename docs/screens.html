@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investment Manager — Screens</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f0f0; color: #1a1a1a; padding: 32px 24px; }
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .subtitle { font-size: 13px; color: #666; margin-bottom: 36px; }
+    .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #999; margin: 48px 0 16px; padding-bottom: 6px; border-bottom: 1px solid #ddd; }
+    .screens { display: flex; flex-wrap: wrap; gap: 32px; }
+    .phone { width: 320px; flex-shrink: 0; }
+    .phone-label { font-size: 11px; font-weight: 600; color: #666; text-align: center; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em; }
+    .phone-shell { background: #fff; border-radius: 28px; border: 2.5px solid #333; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.12); position: relative; }
+    .status-bar { background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px 4px; font-size: 11px; font-weight: 600; color: #333; border-bottom: 1px solid #f0f0f0; }
+    .app-bar { background: #fff; padding: 14px 16px 10px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #ececec; }
+    .app-bar .title { font-size: 18px; font-weight: 700; flex: 1; }
+    .app-bar .actions { display: flex; gap: 6px; }
+    .app-bar .actions span { font-size: 20px; color: #555; }
+    .screen-body { min-height: 500px; padding: 14px; background: #fafafa; overflow: hidden; }
+    .card { background: #fff; border-radius: 12px; border: 1px solid #e8e8e8; padding: 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+    .text-xs { font-size: 10px; } .text-sm { font-size: 12px; } .text-md { font-size: 14px; } .text-lg { font-size: 16px; font-weight: 700; } .text-xl { font-size: 18px; font-weight: 700; }
+    .muted { color: #888; } .primary { color: #1976D2; }
+    .gain { color: #2E7D32; } .loss { color: #C62828; }
+    .row { display: flex; align-items: center; gap: 8px; } .row-sb { display: flex; align-items: center; justify-content: space-between; } .col { display: flex; flex-direction: column; gap: 4px; } .flex-1 { flex: 1; }
+    .chip { font-size: 10px; font-weight: 600; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; }
+    .chip-blue { background: #E3F2FD; color: #1976D2; } .chip-green { background: #E8F5E9; color: #2E7D32; } .chip-red { background: #FCE4EC; color: #C62828; } .chip-grey { background: #F5F5F5; color: #555; }
+    .btn-filled { width: 100%; background: #1976D2; color: #fff; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; text-align: center; margin-top: 8px; }
+    .fab { width: 50px; height: 50px; border-radius: 14px; background: #1976D2; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 26px; position: absolute; bottom: 16px; right: 16px; box-shadow: 0 4px 12px rgba(25,118,210,.4); }
+    .progress-bar-bg { background: #E3F2FD; border-radius: 4px; height: 6px; width: 100%; }
+    .progress-bar-fill { background: #1976D2; border-radius: 4px; height: 6px; }
+    .portfolio-card { background: linear-gradient(135deg, #1976D2, #42A5F5); border-radius: 14px; padding: 16px; margin-bottom: 14px; color: #fff; }
+    .holding-tile { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .holding-tile:last-child { border-bottom: none; }
+    .ticker-avatar { width: 40px; height: 40px; border-radius: 10px; background: #E3F2FD; color: #1976D2; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 11px; font-weight: 600; color: #555; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+    .field-input { width: 100%; border: 1.5px solid #ccc; border-radius: 8px; padding: 8px 10px; font-size: 13px; color: #222; background: #fff; }
+    .alloc-bar-bg { background: #F5F5F5; border-radius: 4px; height: 8px; flex: 1; margin: 0 8px; }
+    .score-bar { height: 10px; border-radius: 5px; background: linear-gradient(90deg, #f44336 0%, #ff9800 50%, #4caf50 100%); margin: 6px 0; position: relative; }
+    .score-marker { position: absolute; top: -4px; width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 2.5px solid #1976D2; transform: translateX(-50%); }
+    .rec-tile { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+    .rec-tile:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+
+  <h1>📈 Investment Manager</h1>
+  <p class="subtitle">Portfolio tracking, performance analysis, and allocation insights — without the noise.</p>
+
+  <!-- ── Main Screens ── -->
+  <div class="section-label">Main Screens</div>
+  <div class="screens">
+
+    <!-- Dashboard -->
+    <div class="phone">
+      <div class="phone-label">Dashboard</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <div class="title">Investment Manager</div>
+          <div class="actions"><span>📊</span></div>
+        </div>
+        <div class="screen-body" style="position:relative; padding-bottom:72px;">
+          <div class="portfolio-card">
+            <div class="text-sm" style="opacity:.8; margin-bottom:4px;">Total Portfolio Value</div>
+            <div style="font-size:28px; font-weight:800; margin-bottom:8px;">$48,320.45</div>
+            <div class="row-sb">
+              <div>
+                <div style="opacity:.8; font-size:11px;">Total Gain / Loss</div>
+                <div style="font-size:16px; font-weight:700;">+$6,820.45 <span style="font-size:12px;">(+16.4%)</span></div>
+              </div>
+              <div style="text-align:right;">
+                <div style="opacity:.8; font-size:11px;">Holdings</div>
+                <div style="font-size:16px; font-weight:700;">6</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding:8px 14px;">
+            <div class="holding-tile">
+              <div class="ticker-avatar">AAPL</div>
+              <div class="col flex-1">
+                <div class="row-sb">
+                  <span class="text-md" style="font-weight:700;">Apple Inc.</span>
+                  <span class="text-md" style="font-weight:700;">$189.30</span>
+                </div>
+                <div class="row-sb">
+                  <span class="text-xs muted">10 shares · 39.2%</span>
+                  <span class="text-xs gain">+$432.00 (+2.3%)</span>
+                </div>
+              </div>
+            </div>
+            <div class="holding-tile">
+              <div class="ticker-avatar" style="background:#E8F5E9; color:#2E7D32;">MSFT</div>
+              <div class="col flex-1">
+                <div class="row-sb">
+                  <span class="text-md" style="font-weight:700;">Microsoft</span>
+                  <span class="text-md" style="font-weight:700;">$415.80</span>
+                </div>
+                <div class="row-sb">
+                  <span class="text-xs muted">8 shares · 27.4%</span>
+                  <span class="text-xs gain">+$1,240.00 (+8.1%)</span>
+                </div>
+              </div>
+            </div>
+            <div class="holding-tile">
+              <div class="ticker-avatar" style="background:#FCE4EC; color:#C62828;">TSLA</div>
+              <div class="col flex-1">
+                <div class="row-sb">
+                  <span class="text-md" style="font-weight:700;">Tesla</span>
+                  <span class="text-md" style="font-weight:700;">$245.60</span>
+                </div>
+                <div class="row-sb">
+                  <span class="text-xs muted">12 shares · 14.8%</span>
+                  <span class="text-xs loss">-$180.00 (-1.1%)</span>
+                </div>
+              </div>
+            </div>
+            <div class="holding-tile">
+              <div class="ticker-avatar" style="background:#FFF3E0; color:#E65100;">NVDA</div>
+              <div class="col flex-1">
+                <div class="row-sb">
+                  <span class="text-md" style="font-weight:700;">Nvidia</span>
+                  <span class="text-md" style="font-weight:700;">$875.20</span>
+                </div>
+                <div class="row-sb">
+                  <span class="text-xs muted">4 shares · 18.6%</span>
+                  <span class="text-xs gain">+$5,328.45 (+64.8%)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fab">+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Stock -->
+    <div class="phone">
+      <div class="phone-label">Add Stock</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <div class="app-bar" style="padding:0; border:none; gap:8px; flex:1;">
+            <span style="font-size:20px; color:#555;">←</span>
+            <div class="title">Add Stock</div>
+          </div>
+        </div>
+        <div class="screen-body">
+          <div class="field">
+            <label>Ticker Symbol</label>
+            <div class="field-input" style="font-weight:700; letter-spacing:.1em;">GOOG</div>
+          </div>
+          <div class="field">
+            <label>Number of Shares</label>
+            <div class="field-input">5</div>
+          </div>
+          <div class="field">
+            <label>Purchase Price per Share</label>
+            <div class="field-input">$142.50</div>
+          </div>
+          <div class="field">
+            <label>Current Price (optional)</label>
+            <div class="field-input" style="color:#aaa; font-style:italic;">Fetch from market…</div>
+          </div>
+          <div style="background:#E3F2FD; border-radius:8px; padding:10px 12px; margin:4px 0 12px; font-size:11px; color:#1565C0;">
+            💡 Leave Current Price blank to enter it manually later.
+          </div>
+          <div class="btn-filled">Add to Portfolio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analysis -->
+    <div class="phone">
+      <div class="phone-label">Portfolio Analysis</div>
+      <div class="phone-shell">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-bar">
+          <div class="app-bar" style="padding:0; border:none; gap:8px; flex:1;">
+            <span style="font-size:20px; color:#555;">←</span>
+            <div class="title">Portfolio Analysis</div>
+          </div>
+        </div>
+        <div class="screen-body">
+          <div class="card">
+            <div class="text-md" style="font-weight:700; margin-bottom:10px;">Overview</div>
+            <div class="row-sb" style="margin-bottom:6px;">
+              <span class="text-sm muted">Winners</span><span class="chip chip-green">4 stocks</span>
+            </div>
+            <div class="row-sb" style="margin-bottom:6px;">
+              <span class="text-sm muted">Losers</span><span class="chip chip-red">1 stock</span>
+            </div>
+            <div class="row-sb" style="margin-bottom:6px;">
+              <span class="text-sm muted">Best performer</span><span class="text-sm gain" style="font-weight:600;">NVDA +64.8%</span>
+            </div>
+            <div class="row-sb">
+              <span class="text-sm muted">Worst performer</span><span class="text-sm loss" style="font-weight:600;">TSLA -1.1%</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="row-sb" style="margin-bottom:8px;">
+              <span class="text-md" style="font-weight:700;">Diversification</span>
+              <span class="chip chip-blue">Score 62 / 100</span>
+            </div>
+            <div class="score-bar">
+              <div class="score-marker" style="left:62%;"></div>
+            </div>
+            <div class="text-xs muted" style="margin-top:4px;">Moderate — consider adding sectors beyond technology.</div>
+          </div>
+
+          <div class="card">
+            <div class="text-md" style="font-weight:700; margin-bottom:10px;">Allocation</div>
+            <div class="row" style="margin-bottom:8px;">
+              <span class="text-sm" style="width:42px; font-weight:600;">NVDA</span>
+              <div class="alloc-bar-bg"><div style="background:#1976D2; height:8px; border-radius:4px; width:18.6%;"></div></div>
+              <span class="text-xs muted" style="width:32px; text-align:right;">18.6%</span>
+            </div>
+            <div class="row" style="margin-bottom:8px;">
+              <span class="text-sm" style="width:42px; font-weight:600;">AAPL</span>
+              <div class="alloc-bar-bg"><div style="background:#1976D2; height:8px; border-radius:4px; width:39.2%;"></div></div>
+              <span class="text-xs muted" style="width:32px; text-align:right;">39.2%</span>
+            </div>
+            <div class="row">
+              <span class="text-sm" style="width:42px; font-weight:600;">MSFT</span>
+              <div class="alloc-bar-bg"><div style="background:#1976D2; height:8px; border-radius:4px; width:27.4%;"></div></div>
+              <span class="text-xs muted" style="width:32px; text-align:right;">27.4%</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="text-md" style="font-weight:700; margin-bottom:10px;">💡 Recommendations</div>
+            <div class="rec-tile">
+              <span style="font-size:18px;">⚠️</span>
+              <span class="text-sm">Technology sector is 85% of portfolio — consider diversifying into healthcare or consumer goods.</span>
+            </div>
+            <div class="rec-tile">
+              <span style="font-size:18px;">📉</span>
+              <span class="text-sm">TSLA is down 1.1% — monitor for further decline before adding more.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
